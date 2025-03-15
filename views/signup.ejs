@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>agrilog</title>
+  <title>members</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -14,13 +14,14 @@
 justify-center   bg-slate-700 rounded-md
 text-slate-200 p-8 gap-2" method="POST">
 
-<p><%=error%></p>
-<label>Crop Name:</label>
-<input type="text" name="crop_name" class="text-slate-700 rounded" required>
+<label>Firstname</label>
+<input type="text" name="firstname" class="text-slate-700 rounded" required>
 
-<label>img url:</label>
-<input name="image_link" type="url" class="rounded text-slate-700" required>
+<label>lastname</label>
+<input name="lastname" type="text" class="rounded text-slate-700" required>
 
+<label>username</label>
+<input name="username" type="text" class="rounded text-slate-700" required>
 <label>password</label>
 <input type="password" class="rounded  text-slate-700" name="password" required>
 
