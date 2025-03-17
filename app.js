@@ -11,4 +11,5 @@ app.use("/signup", router);
 
 
 //TODO: add error checking here
+app.use(express.urlencoded({ extended: true }))
 app.listen(8011);
