@@ -13,20 +13,20 @@
 <form action="/signup" class="w-1/2 flex-col flex 
 justify-center   bg-slate-700 rounded-md
 text-slate-200 p-8 gap-2" method="POST">
-
+<p><%=error%></p>
 <label>Firstname</label>
-<input type="text" name="firstname" class="text-slate-700 rounded" required>
+<input type="text" name="firstname" class="text-slate-700 rounded" >
 
 <label>lastname</label>
-<input name="lastname" type="text" class="rounded text-slate-700" required>
+<input name="lastname" type="text" class="rounded text-slate-700" >
 
 <label>username</label>
-<input name="username" type="text" class="rounded text-slate-700" required>
+<input name="username" type="text" class="rounded text-slate-700" >
 <label>password</label>
-<input type="password" class="rounded  text-slate-700" name="password" required>
+<input type="password" class="rounded  text-slate-700" name="password" >
 
 <label> confirm password</label>
-<input type="password" class="rounded  text-slate-700" name="confirm_password" required>
+<input type="password" class="rounded  text-slate-700" name="confirm_password" >
 <button type="submit" class="bg-green-700 w-1/2">Submit</button>
 </form>
 
