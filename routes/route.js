@@ -22,8 +22,8 @@ router.get("/login", (req, res, next) => {
 
   res.render("login")
 })
-router.post("/signup", authSignup, authSignupPassword, async (req, res) => {
-
+router.post("/signup", body("firstname").notEmpty(), body("lastname").notEmpty(), body("lastname").notEmpty(), authSignupPassword, async (req, res) => {
+  //FIX: make sure to r  eturn the auth middleware
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     res.render("signup", { error: `${errors.errors[0].msg}:  ${errors.errors[0].path}` })

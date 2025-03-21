@@ -1,11 +1,11 @@
 
 const { body, validationResult } = require("express-validator");
 
-async function authSignup(req, res, next) {
+function authSignup() {
   const firstname = body("firstname").notEmpty()
   const lastname = body("lastname").notEmpty()
   const username = body("username").notEmpty()
-  return [firstname, lastname, username]
+  return firstname, lastname, username
 }
 async function authSignupPassword(req, res, next) {
   body('confirm_password').custom(value => {
