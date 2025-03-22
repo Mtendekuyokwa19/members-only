@@ -5,15 +5,11 @@ function authSignup() {
   const firstname = body("firstname").notEmpty()
   const lastname = body("lastname").notEmpty()
   const username = body("username").notEmpty()
-  return firstname, lastname, username
+  return [body("firstname").notEmpty(), body("lastname").notEmpty(), body("username").notEmpty(), body("password").notEmpty()]
 }
-async function authSignupPassword(req, res, next) {
-  body('confirm_password').custom(value => {
-    return value == req.body.password
-  })
-  next()
+function authSignupPassword(req, res, next) {
 
-
+  return
 }
 function validate(error, res) {
 
@@ -31,5 +27,11 @@ function validate(error, res) {
 
 }
 
-
-module.exports = { authSignup, authSignupPassword, validate }
+let defaultsignupobject = {
+  firstname: "",
+  lastname: "",
+  username: "",
+  password: "",
+  confirm_password: ""
+}
+module.exports = { defaultsignupobject, authSignup, authSignupPassword, validate }
