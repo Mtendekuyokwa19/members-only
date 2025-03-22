@@ -4,12 +4,15 @@ require("dotenv").config()
 const { body, validationResult } = require("express-validator");
 const { adduser } = require("../controller/insert");
 const { authSignup, authSignupPassword, validate, defaultsignupobject } = require("./auth");
-const { getuserbyusername } = require("../controller/get");
+const { getuserbyusername, getMessagesWithUsers } = require("../controller/get");
 const router = Router()
 
 router.get("/", (req, res, next) => {
+  getMessagesWithUsers().then(messages => {
 
-  res.render("index")
+    res.render("index", { messages: messages })
+
+  })
 
 })
 

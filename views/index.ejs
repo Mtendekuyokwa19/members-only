@@ -3,8 +3,52 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tinyfarms</title>
+    <title>clubhouse</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class=""></body>
+  <body class=" bg-slate-900  p-4    text-slate-300  ">
+    <nav class="flex  list-none gap-2 justify-evenly">
+      <section class="w-1/2 flex gap-9 justify-between">
+        <li class="text-2xl font-mono"><h1>clubhouse🤖</h1></li>
+        <section class="flex gap-2">
+          <a href="/signup">   <button class="p-2 border rounded border-1">signup</button>
+          </a>                 
+          <a href="/login"><button class="p-2 border rounded border-1">login</button></a>
+        </section>
+      </section>
+    </nav>
+  </body>
+  <main class="flex justify-center flex-col">
+    <section class="flex justify-center p-2 flex-col items-center gap-2 p-4 ">
+
+      <%messages.forEach(message=>{%>
+
+
+       <div class="w-1/2 border-2 rounded-md p-2"> 
+         <div class="flex items-center gap-1 "> 
+           <div class="w-12 flex justify-center items-center text-white  h-12 rounded-full bg-orange-500 text-bold"> 
+             <p class="capitalize font-bold"><%=message.firstname.split("")[0]%></p> 
+           </div> 
+           <div> 
+             <p class="text-md capitalize text-emerald-300"><%=message.firstname%></p> 
+             <p class="text-sm text-slate-400 ">@<%=message.username%></p> 
+           </div> 
+         </div> 
+         <div> 
+           <p><%=message.text%></p> 
+         </div> 
+         <p class="text-sm text-slate-400 text-right "><%=message.date%></p> 
+       </div> 
+
+<% })%> 
+
+    </section>
+    <section>
+     <!-- FIX: sending messages to the backend -->
+<form action="/newmessage" class="w-1/2 flex justify-center ">
+<input type="text" class="">
+        <button>Send</button>
+      </form>
+    </section>
+  </main>
 </html>

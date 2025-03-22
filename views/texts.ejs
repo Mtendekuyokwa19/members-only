@@ -1,0 +1,22 @@
+
+      <%messages.forEach(message=>{%>
+
+
+       <div class="w-1/2 border-2 rounded-md p-2"> 
+         <div class="flex items-center gap-1 "> 
+           <div class="w-12 flex justify-center items-center text-white  h-12 rounded-full bg-orange-500 text-bold"> 
+             <p><%=message.firstname.split("")[0]%></p> 
+           </div> 
+           <div> 
+             <p class="text-md text-emerald-300"><%=message.firstname%></p> 
+             <p class="text-sm text-slate-400 ">@<%=message.username%></p> 
+           </div> 
+         </div> 
+         <div> 
+           <p><%=message.text%></p> 
+         </div> 
+         <p class="text-sm text-slate-400 text-right "><%=message.date%></p> 
+       </div> 
+
+<% })%> 
+
