@@ -13,11 +13,12 @@
 <form action="/login" class="w-1/4 flex-col flex 
 justify-center   bg-slate-700 rounded-md
 text-slate-200 p-8 gap-2" method="POST">
+<p><%=error%></p>
 <label>username</label>
-<input type="text"  name="username" class="text-slate-700 rounded" required>
+<input value="<%=form.username%>" type="text"  name="username" class="text-slate-700 rounded" required>
 
 <label>password</label>
-<input type="password" name="password" class="rounded text-slate-700" required>
+<input type="password" value="<%=form.password%>" name="password" class="rounded text-slate-700" required>
 
 
 <button type="submit" class="bg-green-700 w-1/2">Submit</button>
