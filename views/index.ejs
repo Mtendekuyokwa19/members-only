@@ -68,7 +68,7 @@
     <section>
      <!-- FIX: sending messages to the backend -->
       
-            <%if(locals.user){%>
+            <%if(locals.user.member==true){%>
 <form action="/newmessage" class="w-1/2 flex justify-center ">
 <input type="text" class="">
         <button>Send</button>
