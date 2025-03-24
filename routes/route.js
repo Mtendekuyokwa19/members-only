@@ -4,7 +4,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcryptjs")
 require("dotenv").config()
 const { body, validationResult } = require("express-validator");
-const { adduser } = require("../controller/insert");
+const { adduser, newMessage } = require("../controller/insert");
 const { authSignup, authSignupPassword, validate, defaultsignupobject, authlogin } = require("./auth");
 const { getuserbyusername, getMessagesWithUsers, getUserbyId, getClubPassword } = require("../controller/get");
 const passport = require("passport");
@@ -91,8 +91,15 @@ router.get("/login", (req, res, next) => {
 
 })
 //TODO: make sure that usernames do not get repeated who have
+//TODO: wrte sql for creating the tables
+//FIX: remove all console logging messages
 router.post("/login", passport.authenticate("local", { successRedirect: "/", failureRedirect: "/login" }))
 
+
+router.post("/newmessage", async (req, res, next) => {
+  await newMessage(req.user.id, req.body.textmessage, new Date())
+  res.redirect("/")
+})
 router.post("/signup", body('confirm_password').custom((value, { req, res }) => {
 
   if (value !== req.body.password) {

@@ -42,7 +42,7 @@
     </nav>
   </body>
   <main class="flex justify-center flex-col">
-    <section class="flex justify-center p-2 flex-col items-center gap-2 p-4 ">
+    <section class="flex justify-center p-2 flex-col mb-24  items-center gap-2 p-4 ">
 
       <%messages.forEach(message=>{%>
 
@@ -78,14 +78,13 @@
 <% })%> 
 
     </section>
-    <section>
-     <!-- FIX: sending messages to the backend -->
+    <section class="flex w-full justify-center fixed inset-x-0 bottom-7 ">
       
             <%if(locals.user){%>
             <%if(user.member){%>
-<form action="/newmessage" class="w-1/2 flex justify-center ">
-<input type="text" class="">
-        <button>Send</button>
+<form action="/newmessage" class="w-3/4 flex justify-center gap-2 " method="POST">
+<input type="text"  name="textmessage" class="h-12 rounded w-1/2 text-black" required>
+        <button type="submit" class="p-3  rounded bg-green-700 rounded-md ">Send</button>
       </form>
       <% }%>
       <% }%>
