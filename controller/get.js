@@ -4,6 +4,10 @@ async function getuserbyusername(username) {
 
   return user.rows[0]
 }
+async function getUserbyId(id) {
+  const user = await pool.query("SELECT * FROM users WHERE users.id=$1", [id])
+  return user[0]
+}
 
 async function getMessagesWithUsers() {
   const messages = await pool.query("SELECT text,date,username,firstname FROM messages JOIN  users ON users.id=messages.userid  ")
@@ -12,7 +16,7 @@ async function getMessagesWithUsers() {
 }
 module.exports = {
   getuserbyusername,
-  getMessagesWithUsers
-
+  getMessagesWithUsers,
+  getUserbyId
 
 }

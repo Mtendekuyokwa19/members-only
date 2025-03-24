@@ -1,6 +1,9 @@
 
+const bcrypt = require("bcryptjs")
 const { body, validationResult } = require("express-validator");
-
+const LocalStrategy = require('passport-local');
+const passport = require("passport");
+const { getuserbyusername, getUserbyId } = require("../controller/get");
 function authSignup() {
   const firstname = body("firstname").notEmpty()
   const lastname = body("lastname").notEmpty()
@@ -34,4 +37,21 @@ let defaultsignupobject = {
   password: "",
   confirm_password: ""
 }
-module.exports = { defaultsignupobject, authSignup, authSignupPassword, validate }
+const authlogin = new LocalStrategy(async (username, password, done) => {
+  try {
+    const user = await getuserbyusername(username)
+    const compareuser = await bcrypt.compare(password, user.password);
+    if (user == undefined) {
+      return done(null, false, { message: "user not existed" })
+    }
+    else if (!compareuser) {
+
+      return done(null, false, { message: "password is wrong" })
+    }
+    return done(null, user)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+module.exports = { defaultsignupobject, authSignup, authSignupPassword, validate, authlogin }

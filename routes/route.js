@@ -1,12 +1,16 @@
 const { Router } = require("express");
+
+const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcryptjs")
 require("dotenv").config()
 const { body, validationResult } = require("express-validator");
 const { adduser } = require("../controller/insert");
-const { authSignup, authSignupPassword, validate, defaultsignupobject } = require("./auth");
-const { getuserbyusername, getMessagesWithUsers } = require("../controller/get");
+const { authSignup, authSignupPassword, validate, defaultsignupobject, authlogin } = require("./auth");
+const { getuserbyusername, getMessagesWithUsers, getUserbyId } = require("../controller/get");
+const passport = require("passport");
 const router = Router()
 
+passport.use(authlogin)
 router.get("/", (req, res, next) => {
   getMessagesWithUsers().then(messages => {
 
@@ -28,24 +32,7 @@ router.get("/login", (req, res, next) => {
 
 })
 //TODO: make sure that usernames do not get repeated who have
-router.post("/login", (req, res, next) => {
-  const user = getuserbyusername(req.body.username).then(async (account) => {
-    console.log(account, req.body.username)
-    if (account == undefined) {
-      res.render("login", { error: "Sorry, user do not exist", form: req.body })
-      return
-    }
-    const passwordCheck = await bcrypt.compare(req.body.password, account.password)
-    if (passwordCheck) {
-      res.redirect("/")
-      return
-    }
-
-    res.render("login", { error: "Sorry, wrong password", form: req.body })
-  })
-
-
-})
+router.post("/login", passport.authenticate("local", { successRedirect: "/", failureRedirect: "/login" }))
 
 router.post("/signup", body('confirm_password').custom((value, { req, res }) => {
   console.log(value == req.body.password)
@@ -59,7 +46,9 @@ router.post("/signup", body('confirm_password').custom((value, { req, res }) => 
 }), authSignup()
   , async (req, res) => {
     const errors = validationResult(req)
+
     if (!errors.isEmpty()) {
+      console.log(req.body)
       res.render("signup", { error: `${errors.errors[0].msg}:  ${errors.errors[0].path}`, form: req.body })
       return
     }
@@ -84,5 +73,21 @@ router.post("/signup", body('confirm_password').custom((value, { req, res }) => 
 
 
   })
+passport.serializeUser((user, done) => {
+
+  done(null, user.id)
+})
+
+passport.deserializeUser(async (id, done) => {
+  try {
+
+    const user = getUserbyId(id)
+    return done(null, user)
+
+  }
+  catch (err) {
+    done(err)
+  }
+})
 
 module.exports = { router }
