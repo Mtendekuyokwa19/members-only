@@ -9,6 +9,7 @@ const { authSignup, authSignupPassword, validate, defaultsignupobject, authlogin
 const { getuserbyusername, getMessagesWithUsers, getUserbyId, getClubPassword } = require("../controller/get");
 const passport = require("passport");
 const { becomeAmember } = require("../controller/update");
+const { removeMessage } = require("../controller/del");
 const router = Router()
 
 passport.use(authlogin)
@@ -21,7 +22,6 @@ passport.deserializeUser(async (id, done) => {
   try {
 
     const user = await getUserbyId(id)
-    console.log(user)
 
     return done(null, user)
 
@@ -41,7 +41,6 @@ router.get("/member", (req, res, next) => {
 })
 router.post("/member", (req, res, next) => {
   getClubPassword().then(async (password) => {
-    console.log(req.body.password, password)
     if (req.body.password == password) {
       await becomeAmember(req.user.id)
       res.redirect("/")
@@ -52,10 +51,23 @@ router.post("/member", (req, res, next) => {
 })
 router.get("/", (req, res, next) => {
   getMessagesWithUsers().then(messages => {
+    console.log("here=>", req.user)
     res.render("index", { messages: messages, user: req.user })
 
   })
 
+})
+router.get("/delete/:id", async (req, res, next) => {
+  if (req.user) {
+    if (req.user.user_type == 1) {
+      await removeMessage(req.params.id)
+      res.redirect("/")
+      return
+    }
+
+  }
+
+  res.redirect("/")
 })
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {

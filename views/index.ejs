@@ -21,6 +21,13 @@
             <p class="capitalize"><%=user.username%></p>
           </button>
           </a>                 
+
+          <% if (locals.user){%>
+          <% if (user.member==null){%>
+
+          <a href="/member"><button class="p-2 border rounded border-1">Become a member</button></a>
+          <%} %>
+          <%} %>
           <a href="/logout"><button class="p-2 border rounded border-1">logout</button></a>
 
           
@@ -55,6 +62,12 @@
              <p class="text-sm text-slate-400 ">xxxxx</p> 
             <%} %>
            </div> 
+
+            <%if(locals.user){%>
+            <%if(user.user_type==1){%>
+          <div class="w-full text-right"><a href="/delete/<%=message.msgid%>">X</a></div>
+            <%} %>
+            <%} %>
          </div> 
          <div> 
            <p><%=message.text%></p> 
@@ -68,11 +81,13 @@
     <section>
      <!-- FIX: sending messages to the backend -->
       
-            <%if(locals.user.member==true){%>
+            <%if(locals.user){%>
+            <%if(user.member){%>
 <form action="/newmessage" class="w-1/2 flex justify-center ">
 <input type="text" class="">
         <button>Send</button>
       </form>
+      <% }%>
       <% }%>
     </section>
   </main>
