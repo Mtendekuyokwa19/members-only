@@ -6,7 +6,8 @@ async function getuserbyusername(username) {
 }
 async function getUserbyId(id) {
   const user = await pool.query("SELECT * FROM users WHERE users.id=$1", [id])
-  return user[0]
+  console.log(user.rows[0])
+  return user.rows[0]
 }
 
 async function getMessagesWithUsers() {
@@ -14,9 +15,18 @@ async function getMessagesWithUsers() {
 
   return messages.rows
 }
+async function getClubPassword() {
+
+  const password = await pool.query("SELECT * FROM club_password")
+  console.log(password.rows)
+  return password.rows
+
+}
+getClubPassword()
 module.exports = {
   getuserbyusername,
   getMessagesWithUsers,
-  getUserbyId
+  getUserbyId,
+  getClubPassword
 
 }

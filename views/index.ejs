@@ -11,9 +11,25 @@
       <section class="w-1/2 flex gap-9 justify-between">
         <li class="text-2xl font-mono"><h1>clubhouse🤖</h1></li>
         <section class="flex gap-2">
+          <% if (locals.user){%>
+
+          <a href="/">   <button class="p-2 border rounded border-1 flex justify-center items-center gap-2">
+
+           <div class="w-6 flex justify-center items-center text-white  h-6 rounded-full bg-orange-500 text-bold"> 
+             <p class="capitalize font-bold"><%=user.username.split("")[0]%></p> 
+           </div> 
+            <p class="capitalize"><%=user.username%></p>
+          </button>
+          </a>                 
+          <a href="/logout"><button class="p-2 border rounded border-1">logout</button></a>
+
+          
+          <%} else{%>
           <a href="/signup">   <button class="p-2 border rounded border-1">signup</button>
           </a>                 
           <a href="/login"><button class="p-2 border rounded border-1">login</button></a>
+
+          <%} %>
         </section>
       </section>
     </nav>
@@ -30,8 +46,14 @@
              <p class="capitalize font-bold"><%=message.firstname.split("")[0]%></p> 
            </div> 
            <div> 
+            <%if(locals.user){%>
              <p class="text-md capitalize text-emerald-300"><%=message.firstname%></p> 
              <p class="text-sm text-slate-400 ">@<%=message.username%></p> 
+
+            <%} else {%>
+             <p class="text-md capitalize text-emerald-300">xxxxx</p> 
+             <p class="text-sm text-slate-400 ">xxxxx</p> 
+            <%} %>
            </div> 
          </div> 
          <div> 
@@ -45,10 +67,13 @@
     </section>
     <section>
      <!-- FIX: sending messages to the backend -->
+      
+            <%if(locals.user){%>
 <form action="/newmessage" class="w-1/2 flex justify-center ">
 <input type="text" class="">
         <button>Send</button>
       </form>
+      <% }%>
     </section>
   </main>
 </html>

@@ -6,20 +6,67 @@ require("dotenv").config()
 const { body, validationResult } = require("express-validator");
 const { adduser } = require("../controller/insert");
 const { authSignup, authSignupPassword, validate, defaultsignupobject, authlogin } = require("./auth");
-const { getuserbyusername, getMessagesWithUsers, getUserbyId } = require("../controller/get");
+const { getuserbyusername, getMessagesWithUsers, getUserbyId, getClubPassword } = require("../controller/get");
 const passport = require("passport");
+const { becomeAmember } = require("../controller/update");
 const router = Router()
 
 passport.use(authlogin)
+passport.serializeUser((user, done) => {
+
+  done(null, user.id)
+})
+
+passport.deserializeUser(async (id, done) => {
+  try {
+
+    const user = await getUserbyId(id)
+    console.log(user)
+
+    return done(null, user)
+
+  }
+  catch (err) {
+    done(err)
+  }
+})
+router.get("/member", (req, res, next) => {
+  if (req.user) {
+
+    res.render("member", { error: "" })
+    return
+  }
+  res.redirect("/")
+
+})
+router.post("/member", (req, res, next) => {
+  getClubPassword().then(async (password) => {
+    console.log(req.body.password, password)
+    if (req.body.password == password) {
+      await becomeAmember(req.user.id)
+      res.redirect("/")
+      return
+    }
+    res.render("member", { error: "wrong club code" })
+  })
+})
 router.get("/", (req, res, next) => {
   getMessagesWithUsers().then(messages => {
-
-    res.render("index", { messages: messages })
+    res.render("index", { messages: messages, user: req.user })
 
   })
 
 })
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
 
+      return next(err)
+    }
+    res.redirect("/")
+  })
+
+})
 router.get("/signup", (req, res, next) => {
 
 
@@ -35,7 +82,6 @@ router.get("/login", (req, res, next) => {
 router.post("/login", passport.authenticate("local", { successRedirect: "/", failureRedirect: "/login" }))
 
 router.post("/signup", body('confirm_password').custom((value, { req, res }) => {
-  console.log(value == req.body.password)
 
   if (value !== req.body.password) {
     throw new Error("password do not match")
@@ -48,7 +94,6 @@ router.post("/signup", body('confirm_password').custom((value, { req, res }) => 
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      console.log(req.body)
       res.render("signup", { error: `${errors.errors[0].msg}:  ${errors.errors[0].path}`, form: req.body })
       return
     }
@@ -73,21 +118,5 @@ router.post("/signup", body('confirm_password').custom((value, { req, res }) => 
 
 
   })
-passport.serializeUser((user, done) => {
-
-  done(null, user.id)
-})
-
-passport.deserializeUser(async (id, done) => {
-  try {
-
-    const user = getUserbyId(id)
-    return done(null, user)
-
-  }
-  catch (err) {
-    done(err)
-  }
-})
 
 module.exports = { router }
