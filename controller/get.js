@@ -11,7 +11,6 @@ async function getUserbyId(id) {
 }
 async function getMessagesWithUsers() {
   const messages = await pool.query("SELECT messages.id as msgid ,text,date,username,firstname FROM messages JOIN  users ON users.id=messages.userid  ")
-  console.log(messages.rows)
   return messages.rows
 }
 getMessagesWithUsers()

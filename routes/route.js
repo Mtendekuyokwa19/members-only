@@ -51,7 +51,6 @@ router.post("/member", (req, res, next) => {
 })
 router.get("/", (req, res, next) => {
   getMessagesWithUsers().then(messages => {
-    console.log("here=>", req.user)
     res.render("index", { messages: messages, user: req.user })
 
   })

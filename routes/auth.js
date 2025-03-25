@@ -16,7 +16,6 @@ function authSignupPassword(req, res, next) {
 }
 function validate(error, res) {
 
-  console.log(error.errors)
   if (!error.isEmpty()) {
 
     error = error.errors
