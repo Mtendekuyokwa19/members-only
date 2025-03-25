@@ -1,5 +1,7 @@
 {
-
+"scripts": {
+  "build": "npm install ",
+},
   "dependencies": {
 
     "-": "^0.0.1",
