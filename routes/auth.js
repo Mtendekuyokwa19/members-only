@@ -1,13 +1,9 @@
 
 const bcrypt = require("bcryptjs")
-const { body, validationResult } = require("express-validator");
+const { body } = require("express-validator");
 const LocalStrategy = require('passport-local');
-const passport = require("passport");
-const { getuserbyusername, getUserbyId } = require("../controller/get");
+const { getuserbyusername } = require("../controller/get");
 function authSignup() {
-  const firstname = body("firstname").notEmpty()
-  const lastname = body("lastname").notEmpty()
-  const username = body("username").notEmpty()
   return [body("firstname").notEmpty(), body("lastname").notEmpty(), body("username").notEmpty(), body("password").notEmpty()]
 }
 function authSignupPassword(req, res, next) {

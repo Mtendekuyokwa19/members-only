@@ -1,6 +1,5 @@
 const { Router } = require("express");
 
-const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require("bcryptjs")
 require("dotenv").config()
 const { body, validationResult } = require("express-validator");
