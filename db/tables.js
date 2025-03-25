@@ -7,7 +7,7 @@ function createTables() {
   async function maketable() {
     try {
       const data = await fs.readFile(path.resolve(__dirname, 'tables.sql'), { encoding: 'utf8' });
-      await pool.query(data.toString());
+      await pool.query(data);
     } catch (err) {
       console.error(err);
     }

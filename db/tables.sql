@@ -29,7 +29,3 @@ CREATE TABLE IF NOT EXISTS user_type (
   id INTEGER,
   user_category VARCHAR(255),
 );
-INSERT INTO user_type (
-  id,user_category
-) VALUES ( 1,'admin' )(2,'common');
-
